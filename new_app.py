@@ -101,14 +101,14 @@ if __name__ == "__main__":
 import pandas as pd
 
 # Assuming `y_train` is your target variable after splitting the dataset
-class_counts = y_train.value_counts()
+#class_counts = y_train.value_counts()
 
 # Check if the dataset contains more than one class
-if len(class_counts) > 1:
-    IR = class_counts.max() / class_counts.min()
-    print(f"Imbalance Ratio (IR): {IR}")
-else:
-    print("The dataset has only one class.")
+#if len(class_counts) > 1:
+ #   IR = class_counts.max() / class_counts.min()
+  #  print(f"Imbalance Ratio (IR): {IR}")
+#else:
+  #  print("The dataset has only one class.")
 
 from imblearn.over_sampling import SMOTE
 from collections import Counter  # Import Counter for class distribution
