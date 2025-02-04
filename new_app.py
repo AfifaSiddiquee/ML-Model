@@ -17,7 +17,7 @@ from sklearn.preprocessing import StandardScaler
 
 def load_and_preprocess_data(file_path):
     """Load dataset, split into train-test sets, and apply scaling."""
-    data = pd.read_csv(file_path)
+    data = pd.read_csv("/content/updated_diabetes.csv")
     X = data.drop(columns=['Outcome'])
     y = data['Outcome']
 
