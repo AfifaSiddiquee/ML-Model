@@ -22,49 +22,56 @@ model = RandomForestClassifier(n_estimators=100, random_state=42) # Initialize m
 
 # Upload dataset
 st.title("Diabetes Prediction App")
+uploaded_file = st.file_uploader("/content/diabetes.csv", type=["csv"])
 
-# Preload the dataset from a fixed file (assuming it's in the same folder as app.py)
-data = pd.read_csv("/content/diabetes.csv")  # Replace with your dataset path if needed
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    #st.write("Dataset Preview:")
+    #st.write(data.head())
 
-# Splitting data
-X = data.drop(columns=['Outcome'])
-y = data['Outcome']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Splitting data
+    X = data.drop(columns=['Outcome'])
+    y = data['Outcome']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Standardizing features
-X_train_scaled = scaler.fit_transform(X_train)  # Use the initialized scaler
-X_test_scaled = scaler.transform(X_test)
+    # Standardizing features
+    X_train_scaled = scaler.fit_transform(X_train)  # Use the initialized scaler
+    X_test_scaled = scaler.transform(X_test)
 
-# Training a model
-model.fit(X_train_scaled, y_train)  # Use the initialized model
+    # Training a model
+    model.fit(X_train_scaled, y_train)  # Use the initialized model
 
-# Evaluate model
-predictions = model.predict(X_test_scaled)
-accuracy = accuracy_score(y_test, predictions)
+    # Evaluate model
+    predictions = model.predict(X_test_scaled)
+    accuracy = accuracy_score(y_test, predictions)
 
-# Save the model
-with open('diabetes_model.pkl', 'wb') as file:
+    # Save the model
+    with open('diabetes_model.pkl', 'wb') as file:
+        pickle.dump((scaler, model), file)
+
+   # st.write(f"Model Accuracy: {accuracy * 100:.2f}%")
+
+        # User inputs
+    pregnancies = st.number_input("Pregnancies", 0, 20, 1)
+    glucose = st.number_input("Glucose Level", 0, 200, 100)
+    bp = st.number_input("Blood Pressure", 0, 150, 80)
+    skin_thickness = st.number_input("Skin Thickness", 0, 100, 20)
+    insulin = st.number_input("Insulin Level", 0, 900, 100)
+    bmi = st.number_input("BMI", 0.0, 50.0, 25.0)
+    dpf = st.number_input("Diabetes Pedigree Function", 0.0, 2.5, 0.5)
+    age = st.number_input("Age", 0, 100, 30)
+
+    if st.button("Predict"):
+        with open('diabetes_model.pkl', 'rb') as file:
+            scaler, model = pickle.load(file)
+
+        input_data = np.array([[pregnancies, glucose, bp, skin_thickness, insulin, bmi, dpf, age]])
+        input_scaled = scaler.transform(input_data)
+        prediction = model.predict(input_scaled)
+        result = "Diabetic" if prediction[0] == 1 else "Not Diabetic"
+        st.write(f"Prediction: {result}")
+
+# Now, scaler and model are defined and can be saved
+with open("diabetes_model.pkl", "wb") as file:
     pickle.dump((scaler, model), file)
-
-# st.write(f"Model Accuracy: {accuracy * 100:.2f}%")
-
-# User inputs
-pregnancies = st.number_input("Pregnancies", 0, 20, 1)
-glucose = st.number_input("Glucose Level", 0, 200, 100)
-bp = st.number_input("Blood Pressure", 0, 150, 80)
-skin_thickness = st.number_input("Skin Thickness", 0, 100, 20)
-insulin = st.number_input("Insulin Level", 0, 900, 100)
-bmi = st.number_input("BMI", 0.0, 50.0, 25.0)
-dpf = st.number_input("Diabetes Pedigree Function", 0.0, 2.5, 0.5)
-age = st.number_input("Age", 0, 100, 30)
-
-if st.button("Predict"):
-    with open('diabetes_model.pkl', 'rb') as file:
-        scaler, model = pickle.load(file)
-
-    input_data = np.array([[pregnancies, glucose, bp, skin_thickness, insulin, bmi, dpf, age]])
-    input_scaled = scaler.transform(input_data)
-    prediction = model.predict(input_scaled)
-    result = "Diabetic" if prediction[0] == 1 else "Not Diabetic"
-    st.write(f"Prediction: {result}")
 
