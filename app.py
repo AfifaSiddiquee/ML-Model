@@ -26,8 +26,8 @@ uploaded_file = st.file_uploader("/content/diabetes.csv", type=["csv"])
 
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
-    st.write("Dataset Preview:")
-    st.write(data.head())
+    #st.write("Dataset Preview:")
+    #st.write(data.head())
 
     # Splitting data
     X = data.drop(columns=['Outcome'])
@@ -49,7 +49,7 @@ if uploaded_file is not None:
     with open('diabetes_model.pkl', 'wb') as file:
         pickle.dump((scaler, model), file)
 
-    st.write(f"Model Accuracy: {accuracy * 100:.2f}%")
+   # st.write(f"Model Accuracy: {accuracy * 100:.2f}%")
 
         # User inputs
     pregnancies = st.number_input("Pregnancies", 0, 20, 1)
