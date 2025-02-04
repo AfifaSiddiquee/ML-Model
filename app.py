@@ -24,7 +24,7 @@ model = RandomForestClassifier(n_estimators=100, random_state=42) # Initialize m
 st.title("Diabetes Prediction App")
 
 # Preload the dataset from a fixed file (assuming it's in the same folder as app.py)
-data = pd.read_csv("diabetes.csv")  # Replace with your dataset path if needed
+data = pd.read_csv("/content/diabetes.csv")  # Replace with your dataset path if needed
 
 # Splitting data
 X = data.drop(columns=['Outcome'])
