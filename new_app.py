@@ -101,8 +101,6 @@ plt.show()
 IR = class_counts.max() / class_counts.min()
 print("Imbalance Ratio:", IR)
 
-pip install imbalanced-learn
-
 from imblearn.over_sampling import SMOTE
 from collections import Counter  # Import Counter for class distribution
 import pandas as pd
