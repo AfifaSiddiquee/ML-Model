@@ -81,22 +81,22 @@ if __name__ == "__main__":
     model_path, acc = train_and_save_model("updated_diabetes.csv")  # Use your updated CSV file path here
     print(f"Model saved at {model_path} with accuracy {acc * 100:.2f}%")
 
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+#import pandas as pd
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 # Load the dataset
-file_path = "/content/diabetes.csv"  # Update with your correct file path
-df = pd.read_csv(file_path)
+#file_path = "/content/diabetes.csv"  # Update with your correct file path
+#df = pd.read_csv(file_path)
 
 # Count occurrences of each class
-class_counts = df['Outcome'].value_counts()
-print("Class Distribution:\n", class_counts)
+#class_counts = df['Outcome'].value_counts()
+#print("Class Distribution:\n", class_counts)
 
 # Plot class distribution
-sns.countplot(x=df['Outcome'])
-plt.title("Class Distribution")
-plt.show()
+#sns.countplot(x=df['Outcome'])
+#plt.title("Class Distribution")
+#plt.show()
 
 IR = class_counts.max() / class_counts.min()
 print("Imbalance Ratio:", IR)
